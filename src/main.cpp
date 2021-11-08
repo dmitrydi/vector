@@ -114,6 +114,23 @@ void TestErase() {
   ASSERT(v.Size() == 2 && v[0] == 1 && v[1] == 3 && it == v.begin() + 1);
 };
 
+void TestEmplaceBack() {
+  struct Point {
+    int x;
+    int y;
+    int z;
+    Point(int x, int y, int z): x(x), y(y), z(z) {};
+    void Print(ostream& os) const {
+      os << "x = " << x << ", y = " << y << ", z = " << z << endl;
+    }
+  };
+  Vector<Point> v;
+  v.EmplaceBack(1, 2, 3);
+  for (const auto& x: v)
+    x.Print(cerr);
+
+}
+
 int main() {
   TestRunner tr;
   RUN_TEST(tr, TestInit);
@@ -122,5 +139,6 @@ int main() {
   RUN_TEST(tr, TestInsert);
   RUN_TEST(tr, TestEmplace);
   RUN_TEST(tr, TestErase);
+  RUN_TEST(tr, TestEmplaceBack);
   return 0;
 }

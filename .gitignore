@@ -4,3 +4,4 @@ Release/*
 .cproject
 .project
 src/author_solution.h
+*.html

@@ -89,7 +89,7 @@ public:
 	  std::uninitialized_copy_n(other.data.buf, other.sz, data.buf);
 	  sz = other.sz;
   }
-  Vector(Vector&& other): data(other.sz) {
+  Vector(Vector&& other) noexcept: data(other.sz) {
 	  Swap(other);
   }
 
@@ -164,6 +164,18 @@ public:
 	  ++sz;
 	  return *ptr;
   }
+
+  /*
+   *   template <typename ... Args>
+  T& EmplaceBack(Args&&... args) {
+    if (sz == data.cp) {
+      Reserve(sz == 0 ? 1 : sz * 2);
+    }
+    auto elem = new (data + sz) T(std::forward<Args>(args)...);
+    ++sz;
+    return *elem;
+  }
+   */
 
   void PopBack() {
 	  std::destroy_at(data + sz - 1);
