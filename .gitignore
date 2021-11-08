@@ -1,4 +1,6 @@
 Debug/*
+Release/*
 .settings/*
 .cproject
 .project
+src/author_solution.h

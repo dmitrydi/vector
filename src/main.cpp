@@ -7,11 +7,11 @@ using namespace std;
 class C {
 public:
   inline static int created = 0;
-  inline static int moved = 0;
   inline static int assigned = 0;
   inline static int deleted = 0;
+
   static void Reset() {
-    created = assigned = deleted = moved = 0;
+    created = assigned = deleted = 0;
   }
 
   C() {
@@ -19,9 +19,6 @@ public:
   }
   C(const C& other) {
     ++created;
-  }
-  C(C&& other) {
-	  ++moved;
   }
   C& operator=(const C& other) {
     ++assigned;
@@ -107,7 +104,7 @@ void TestEmplace() {
   auto it = v.Emplace(v.cbegin(), x, y);
   ASSERT(v.Size() == 2 && v[0].x == x && v[0].y == y && v[1].x == z && v[1].y == z && it == v.begin());
 };
-//
+
 void TestErase() {
   Vector<int> v;
   v.PushBack(1);
@@ -117,30 +114,13 @@ void TestErase() {
   ASSERT(v.Size() == 2 && v[0] == 1 && v[1] == 3 && it == v.begin() + 1);
 };
 
-void TestMemory() {
-	{
-		C::Reset();
-		Vector<C> v;
-		v.Insert(v.cbegin(), C());
-		v.Insert(v.cbegin(), C());
-		v.Insert(v.cbegin(), C());
-		v.Erase(v.cend()-1);
-	}
-	cout << "Created: " << C::created << endl;
-	cout << "Moved: " << C::moved << endl;
-	cout << "Destroyed: " << C::deleted << endl;
-}
-
-
 int main() {
   TestRunner tr;
-//  RUN_TEST(tr, TestInit);
-//  RUN_TEST(tr, TestAssign);
-//  RUN_TEST(tr, TestPushBack);
-  //
+  RUN_TEST(tr, TestInit);
+  RUN_TEST(tr, TestAssign);
+  RUN_TEST(tr, TestPushBack);
   RUN_TEST(tr, TestInsert);
   RUN_TEST(tr, TestEmplace);
   RUN_TEST(tr, TestErase);
-  RUN_TEST(tr, TestMemory);
   return 0;
 }
